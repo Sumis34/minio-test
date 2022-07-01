@@ -5,11 +5,11 @@
 const Minio = require("minio");
 require("dotenv").config();
 
-var client = new Minio.Client({
+const client = new Minio.Client({
   endPoint: "s3.noekrebs.ch",
   useSSL: false,
-  accessKey: process.env.ACCESS_KEY,
-  secretKey: process.env.SECRET_KEY,
+  accessKey: process.env.S3_ACCESS_KEY,
+  secretKey: process.env.S3_SECRET_KEY,
 });
 
 const port = process.env.PORT || 8080;
@@ -23,7 +23,7 @@ const port = process.env.PORT || 8080;
 const server = require("express")();
 
 server.get("/presignedUrl", (req, res) => {
-  client.presignedPutObject("tim", req.query.name, (err, url) => {
+  client.presignedPutObject("data", req.query.name, (err, url) => {
     if (err) throw err;
     res.end(url);
   });
